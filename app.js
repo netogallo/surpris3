@@ -27,14 +27,14 @@ var user = mongo.Schema({
 
 var photobomb = mongo.Schema({
     user_id : String,
-    competition_id : {type:mongo.Schema.Types.ObjectId,ref:'Competition'},
+    competition_id : {type:mongo.Schema.Types.ObjectId,ref:'Competition'},    
     name : String,
     votes : [{user_id:String,value:Number}],
     picture : String,
     date : {type:Date,default:Date.now}
 });
 
-photobomb.index({"user_id":1,"competition_id":1},{unique:true,sparse:true});
+//photobomb.index({"competition_id":1,"user_id":1},{unique:true,sparse:true});
 
 var vote = mongo.Schema({
     user_id : String,
@@ -48,8 +48,6 @@ User = db.model('User',user);
 Competition = db.model('Competition',competition);
 Photobomb = db.model('Photobomb',photobomb);
 Vote = db.model('Vote',vote);
-
-
 
 var express = require('express')
   , routes = require('./routes')
@@ -83,6 +81,7 @@ app.get('/users', user.list);
 app.post('/upload_picture',photobombs.uploadPicture);
 app.post('/create_user',photobombs.createUser);
 app.post('/place_vote',photobombs.vote);
+app.post('/create_competition',photobombs.addCompetition);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

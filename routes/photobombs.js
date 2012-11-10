@@ -22,21 +22,36 @@ var savePhotobomb = Prelude.curry(function(obj,res){
 	votes : []
     });
 
-    pb.save(Prelude.curry(function(res,pb,err){
+    Photobomb.findOne({user_id:obj.user_id,competition_id:obj.competition_id},Prelude.curry(function(res,pb,error,obj){
 	
-	if(err){
-	    console.log(err);
+	if(error){
+	    console.log(error);
 	    res.json({error:true});
-	}else
-	    res.json({error:false,result:pb});
+	}if(!obj || !obj.competition_id){
+	    
+	    pb.save(Prelude.curry(function(res,pb,err){
+	
+		if(err){
+		    console.log(err);
+		    res.json({error:true});
+		}else
+		    res.json({error:false,result:pb});
+	    })(res,pb));
+	}else{
+	    res.json({error:true,already_participated:true})
+	}
     })(res,pb));
+	
 });
 
 exports.uploadPicture = function(req,res){
 
-    if(req.competition){
+    var tmp = eval("("+req.param('arg')+")");
+
+    if(tmp.competition){
 
 	Competition.findOne({}).sort('-date').exec(Prelude.curry(function(req,res,err,competition){
+	    console.log(competition);
 	    if(err || !competition)
 		res.json({error:true});
 	    else
@@ -70,7 +85,7 @@ exports.vote = function(req,res){
     var tmp = eval('('+req.param('arg')+')');
 
     if(!(tmp.value == 1 || tmp.value == -1))
-	res.json({error:true,reason:'Invalid Vote'});
+	res.json({error:true,invalid_value:true});
     else{
 	var vote = new Vote({
 	    user_id : tmp.user_id,
@@ -88,7 +103,7 @@ exports.vote = function(req,res){
 		vote.save(Prelude.curry(function(pb,res,err){
 		    
 		    if(err)
-			res.json({error:true,alreadyVoted:true});
+			res.json({error:true,already_voted:true});
 		    else
 			pb.save(Prelude.curry(function(res,err){
 			    
@@ -102,4 +117,22 @@ exports.vote = function(req,res){
 	    }
 	})(vote,tmp.value,res));
     }
+};
+
+exports.addCompetition = function(req,res){
+
+    var tmp = eval('('+req.param('arg')+')');
+
+    var competition = new Competition({
+    	name : tmp.name,
+	description : tmp.description
+    });
+
+    competition.save(Prelude.curry(function(res,err){
+
+	if(err)
+	    res.json({error:true});
+	else
+	    res.json({error:false});
+    })(res));
 };
