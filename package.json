@@ -9,6 +9,7 @@
     "express": "3.0.1",
     "ejs": "*",
     "mongoose": "*",
-    "prelude-ls": "*"
+    "prelude-ls": "*",
+    "express-partials": "*"
   }
 }

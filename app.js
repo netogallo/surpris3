@@ -58,12 +58,13 @@ var express = require('express')
   , path = require('path');
 
 var app = express();
+var partials = require('express-partials');
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-  app.set("view options", { layout: "layout.ejs" });
+
   app.use(express.favicon());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -71,16 +72,18 @@ app.configure(function(){
   app.use(express.cookieParser('your secret here'));
   app.use(express.session());
   app.use(app.router);
+
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
+//app.use(partials());
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-app.get('/photobomb/:id', frontend.singe_photobomb);
+app.get('/photobomb/:id', frontend.single_photobomb);
 app.get('/top/:page', frontend.top);
 app.get('/recent/:page', frontend.recent);
 app.get('/challenge/:id/:page', frontend.challenge)
