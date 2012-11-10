@@ -136,3 +136,121 @@ exports.addCompetition = function(req,res){
 	    res.json({error:false});
     })(res));
 };
+
+
+exports.photobombs = function(req,res){
+
+    Photobomb.find({},{picture:0},Prelude.curry(function(res,error,photobombs){
+
+	if(error)
+	    res.json({error:true});
+	else
+	    expandCompetitions(photobombs,Prelude.curry(function(res,error,photobombs){
+
+		expandUsers(photobombs,Prelude.curry(function(res,error,photobombs){
+
+		    res.json(photobombs);
+		})(res));
+	    })(res));
+    })(res));
+}
+
+//callback(error,photobombs)
+var expandedPhotobombs(callback){
+    
+    Photobomb.find({},{picture:0},Prelude.curry(function(res,error,photobombs){
+
+	if(error)
+	    res.json({error:true});
+	else
+	    expandCompetitions(photobombs,Prelude.curry(function(res,error,photobombs){
+
+		if(error)
+		    callback(error,undefined);
+		else{
+		    expandUsers(photobombs,Prelude.curry(function(res,error,photobombs){
+		    
+			if(error)
+			    callback(error,undefined);
+			else
+			    callback(undefined,photobombs);
+		    })(res));
+		}
+	    })(res));
+    })(res));
+}
+				    
+var expandCompetitions = function(photobombs,callback){
+
+    var reduce = function(y,x){
+	return Prelude.append(y,{_id:x.competition_id});
+    };
+
+    var comp = Prelude.foldr(reduce,[],photobombs);
+
+    Competition.find({$or:comp},Prelude.curry(function(callback,photobombs,error,competitions){
+
+	if(error)
+	    callback(error,undefined);
+	else{
+
+	    var augment = function(pb){
+
+		var f = function(x){return x._id.toString() == pb.competition_id;};
+
+		var comp = Prelude.find(f,competitions);
+
+		return {
+		    _id : pb._id,
+		    user_id : pb.user_id,
+		    name : pb.name,
+		    competition_id : pb.competition_id,
+		    votes : pb.votes,
+		    date : pb.date,
+		    user : pb.user,
+		    competition : comp};		
+	    }
+
+	    var res = Prelude.map(augment,photobombs);
+	    callback(undefined,res);
+	}
+    })(callback,photobombs));
+}
+
+var expandUsers = function(photobombs,callback){
+
+    var reduce = function(y,x){
+
+	return Prelude.append(y,{_id:x.user_id});
+    };
+
+    var users = Prelude.foldr(reduce,[],photobombs);
+
+    User.find({$or:users},Prelude.curry(function(callback,photobombs,error,users){
+
+
+	if(error)
+	    callback(error,undefined);
+	else{
+	    
+	    var augment = function(pb){
+
+		var f = function(x){return x._id == pb.user_id;};
+	    
+		return {
+		    _id : pb._id,
+		    user_id : pb.user_id,
+		    name : pb.name,
+		    competition_id : pb.competition_id,
+		    votes : pb.votes,
+		    date : pb.date,
+		    user : Prelude.find(f,users),
+		    competition : pb.competition};
+	    };
+	    
+	    var res = Prelude.map(augment,photobombs);
+	    
+	    callback(undefined,res);
+	}
+    })(callback,photobombs));
+};
