@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-scripts lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-scripts lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-scripts lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-scripts"> <!--<![endif]-->
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# surprise_photo: http://ogp.me/ns/fb/surprise_photo#">
+	<meta property="fb:app_id" content="447395701972949" /> 
+	<meta property="og:type"   content="surprise_photo:picture" /> 
+	<meta property="og:url"    content="http://127.0.0.1:3000/photobomb/<%= photobomb._id %>" /> 
+	<meta property="og:title"  content="<%= photobomb.name %>" /> 
+	<meta property="og:image"  content="<%= photobomb.picture %>" /> 
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Surpris3 - Photobombing</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width">
+
+	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+	<link rel="stylesheet" href="stylesheets/normalize.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="stylesheets/main.css">
+	<script src="scripts/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+<!--[if lt IE 7]>
+	<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+	<![endif]-->
+	<header>
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+
+					<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+
+					<!-- Be sure to leave the brand out there if you want it shown -->
+					<a class="brand" href="#"><img src="images/logo_small.png" alt="Surpris3 - Photobombing"></a>
+
+					<!-- Everything you want hidden at 940px or less, place within here -->
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li class="<%= if(page == 'top') return 'active';%>"><a href="/top">Top</a></li>
+							<li class="divider-vertical"></li>
+							<li class="<%= if(page == 'challenge') return 'active';%>"><a href="/challenge">Challenge</a></li>
+							<li class="divider-vertical"></li>
+							<li class="<%= if(page == 'recent') return 'active';%>"><a href="/recent">Recent</a></li>
+							<li class="divider-vertical"></li>
+						</ul>
+						<ul class="nav pull-right">
+							<li class="nav_logged_in"><a href="#pb_upload" role="button" data-toggle="modal">Upload</a></li>
+							<li class="divider-vertical nav_logged_in"></li>
+							<li class="nav_logged_in">
+								<img class="profilepic" src="images/placeholder.jpg">
+								<span class="profilename"></span>
+								<span class="profilepoints"></span></li>
+								<li class="divider_vertical nav_logged_in"></li>
+								<li class="nav_logged_in"><a href="javascript:surpris3.logout();">Log Out</a></li>
+								<li class="nav_logged_out"><a href="javascript:surpris3.login();">Sign In</a></li>
+							</ul>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</header>
+		<div role="main" id="main">
+			<div class="pb_entry pb_<%= photobomb._id %>">
+				<div class="pb_picture">
+					<img src="<%= photobomb.picture %>" class="img-polaroid">
+				</div>
+				<div class="pb_seperator"></div>
+				<div class="pb_information">
+					<div class="pb_details">
+						<h3 class="pb_name"><%= photobomb.name %></h3>
+						<% if (photobomb.hasOwnProperty("competition") && photobomb.competition) { %>
+						<div class="category">
+							<span class="label label-warning"><%= photobomb.competition %></span>
+						</div>
+						<% } %>
+						<h5 class="pb_user">
+							<a href="http://www.facebook.com/<%= photobomb.user.id %>" alt="To Facebook Profile" target="_blank">
+								<span class="pb_user_pic"><img src="<%= photobomb.user.picture.data.url %>"></span>
+								<span class="pb_user_name"><%= photobomb.user.name %></span>
+							</a>
+						</h5>
+					</div>
+					<div class="pb_vote">
+						<div class="pb_vote_up"><a href="javascript:surpris3.vote_up(<%= photobomb._id %>)"><div class="ir pb_bomb_up">UP</div></a></div>
+						<div class="pb_vote_count"><%= photobomb.votes.length %></div>
+						<div class="pb_vote_down"><a href="javascript:surpris3.vote_down(<%= photobomb._id %>)"><div class="ir pb_bomb_down">DOWN</div></a></div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+		<footer>
+			<div class="footer_logo">
+				<img src="images/logo_dark_big.png" alt="Surpris3 - Photobombing">
+			</div>
+			<div class="footer_information">
+				<span>developed by Dominik Kundel and Ernesto Rodriguez</span>
+			</div>
+			<div class="clearfix">
+			</footer>	
+
+			<!-- upload photobomb -->
+			<div id="pb_upload" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="PhotoBombUpload" aria-hidden="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="PhotoBombUpload">Upload Photobomb</h3>
+				</div>
+				<div class="modal-body">
+					<div class="alert alert-block alert-error">
+						<h4>Not logged in!</h4>
+						You must be logged in to upload a picture
+					</div>
+					<form class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label" for="inputName">Name</label>
+							<div class="controls">
+								<input type="text" id="inputName" placeholder="Picture Name">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="inputURL">Image URL</label>
+							<div class="controls">
+								<input type="text" id="inputURL" placeholder="https://fbcdn-sphotos-d-a.akamaihd.net/...">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label" for="inputCompetition">Part of Competition?</label>
+							<div class="controls">
+								<input type="checkbox" id="inputCompetition">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+					<button class="btn btn-warning">Upload Photobomb</button>
+				</div>
+			</div>
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+			<script>window.jQuery || document.write('<script src="scripts/vendor/jquery-1.8.2.min.js"><\/script>')</script>
+			<script src="scripts/plugins.js"></script>
+			<script src="bootstrap/js/bootstrap.min.js"></script>
+			<script src="scripts/main.js"></script>
+
+			<script>
+			window.fbAsyncInit = function() {
+		    // init the FB JS SDK
+		    FB.init({
+			      appId      : '447395701972949', // App ID from the App Dashboard
+			      channelUrl : '//127.0.0.1/surpris3/channel.html', // Channel File for x-domain communication
+			      status     : true, // check the login status upon init?
+			      cookie     : true, // set sessions cookies to allow your server to access the session?
+			      xfbml      : true  // parse XFBML tags on this page?
+			  });
+
+			    surpris3.check_login();
+
+			};
+
+		  // Load the SDK's source Asynchronously
+		  (function(d, debug){
+		  	var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+		  	if (d.getElementById(id)) {return;}
+		  	js = d.createElement('script'); js.id = id; js.async = true;
+		  	js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+		  	ref.parentNode.insertBefore(js, ref);
+		  }(document, /*debug*/ false));
+		  </script>
+
+		  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+		  <script>
+		  var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+		  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+		  	g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+		  	s.parentNode.insertBefore(g,s)}(document,'script'));
+		  </script>
+		</body>
+		</html>

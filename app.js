@@ -53,6 +53,7 @@ var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , photobombs = require('./routes/photobombs')
+  , frontend = require('./routes/frontend')
   , http = require('http')
   , path = require('path');
 
@@ -78,6 +79,10 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/photobomb/:id', frontend.singe_photobomb);
+app.get('/top/:page', frontend.top);
+app.get('/recent/:page', frontend.recent);
+app.get('/challenge/:id/:page', frontend.challenge)
 app.post('/upload_picture',photobombs.uploadPicture);
 app.post('/create_user',photobombs.createUser);
 app.post('/place_vote',photobombs.vote);
