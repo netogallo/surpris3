@@ -2,8 +2,8 @@ function callback_photobomb_list(data, res){
 	var info_render = {};
 	info_render.page = 'top';
 	info_render.photobomb = data;
+	info_render.layout = 'layout.ejs';
 
-	res.local('layout', true);
 	res.render('photobomb_list', info_render);
 }
 
@@ -12,6 +12,7 @@ function callback_challenge(data, challenge_object, res){
 	info_render.page = 'challenge';
 	info_render.challenge = challenge_object;
 	info_render.photobomb = data;
+	info_render.layout = 'layout.ejs';
 
 	res.local('layout', true);
 	res.render('challenge_list.ejs', info_render)
@@ -21,8 +22,8 @@ function callback_photobomb_single(data, res){
 	var info_render = {};
 	info_render.page = '';
 	info_render.photobomb = data;
+	info_render.layout = false;
 
-	res.local('layout', false);
 	res.render('single_photobomb', info_render);
 }
 
