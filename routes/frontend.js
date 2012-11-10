@@ -25,22 +25,27 @@ function callback_photobomb_single(data, res){
 }
 
 exports.top = function(req,res){
+	var page = req.params.page; // passed page number
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
 	callback_photobomb_list(photobomb_array, res); // CALLBACK FUNCTION
 }
 
 exports.challenge = function(req, res){
+	var id = req.params.id; // passed challenge id
+	var page = req.params.page; // passed page number
 	var current_challenge = {}; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
 	var photobomb_array = []; // TODO: OBJECT OF CURRENT CHALLENGE
 	callback_challenge(photobomb_array, current_challenge, res); // CALLBACK FUNCTION
 }
 
 exports.recent = function(req, res){
+	var page = req.params.page; // passed page number
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
 	callback_photobomb_list(photobomb_array, res); // CALLBACK FUNCTION
 }
 
 exports.single_photobomb = function(req, res) {
+	var id = req.params.id; // passed photobomb id
 	var photobomb = {}; // TODO: PHOTOBOMB OBJECT AS SPECIFIED IN GOOGLE DOC OF ID
 	callback_photobomb_single(photobomb, res); // CALLBACK FUNCTION
 }
