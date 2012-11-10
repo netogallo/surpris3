@@ -18,6 +18,7 @@ var surpris3 = {
 		$(".nav_logged_in").show();
 		$(".pb_vote_up").show();
 		$(".pb_vote_down").show();
+		surpris3.unable_votes();
 	},
 	clear_user_info: function _clearUser(){
 		this.user_info = null;
@@ -90,7 +91,7 @@ var surpris3 = {
 			rqst.photobomb_id = id;
 			rqst.value = -1;
 			var rqst_str = JSON.stringify(rqst);
-			$.ajax("/place_vote", {type: "POST", data: {arg:rqst_str}}, function(rsp){
+			$.ajax("/place_vote", {type: "POST", data: {arg:rqst_str}, success: function(rsp){
 				if(!rsp.error){
 					$(".pb_" + id + " .pb_vote_up").hide();
 					$(".pb_" + id + " .pb_vote_down").hide();
@@ -98,7 +99,7 @@ var surpris3 = {
 					count++;
 					$(".pb_" + id + " .pb_vote_count").html(count);
 				}
-			});
+			}});
 		}
 	},
 	check_login: function _check_login() {
@@ -113,7 +114,17 @@ var surpris3 = {
 	}, 
 	register_user: function _register(data) {
 		var user_str = JSON.stringify(data);
-		$.ajax("/create_user", {type: "POST", data: {arg:user_str}}, function(){});
+		$.ajax("/create_user", {type: "POST", data: {arg:user_str}, success: function(){}});
+	},
+	unable_votes: function _remove_votes() {
+		if(surpris3.user_info){
+			$.ajax("/votes/" + surpris3.user_info.id, {type: "GET", success: function(rsp){
+				for(var i=0; i < rsp.length; i++){
+					$(".pb_"+rsp[i]+" .pb_vote_up").hide();
+					$(".pb_"+rsp[i]+" .pb_vote_down").hide();
+				}
+			}});
+		}
 	}
 };
 
