@@ -40,7 +40,7 @@ function callback_photobomb_single(data, res){
 
 	var v = 0;
 	for(var j=0; j < info_render.photobomb[i].votes.length; ++j){
-		v += info_render.photobomb[i].votes[j].value;
+		v += info_render.photobomb.votes[j].value;
 	}
 	info_render.photobomb[i].number_votes = v;
 
