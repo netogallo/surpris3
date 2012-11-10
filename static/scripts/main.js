@@ -117,5 +117,6 @@ var surpris3 = {
 };
 
 (function($){
-	
+	$(".pagination").width($(".pagination ul").width());
+	$(".pagination").css("margin", "0px auto");
 })(jQuery);

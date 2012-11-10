@@ -41,11 +41,11 @@
           <!-- Everything you want hidden at 940px or less, place within here -->
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="<%= if(page == 'top') return 'active';%>"><a href="/top">Top</a></li>
+              <li class="<% if(page == 'top') { %>active<% } %>;%>"><a href="/top">Top</a></li>
               <li class="divider-vertical"></li>
-              <li class="<%= if(page == 'challenge') return 'active';%>"><a href="/challenge">Challenge</a></li>
+              <li class="<% if(page == 'challenge') { %>active<% } %>;%>"><a href="/challenge">Challenge</a></li>
               <li class="divider-vertical"></li>
-              <li class="<%= if(page == 'recent') return 'active';%>"><a href="/recent">Recent</a></li>
+              <li class="<% if(page == 'recent') { %>active<% } %>;%>"><a href="/recent">Recent</a></li>
               <li class="divider-vertical"></li>
             </ul>
             <ul class="nav pull-right">
@@ -103,6 +103,15 @@
         <div class="clearfix"></div>
       </div>
       <% } %>
+      <div class="change_page">
+      <div class="pagination">
+        <ul>
+          <li class="<% if(page_count == 1) { %>disabled <% } %>"><a href="#">&lt;</a></li>
+          <li class="active"><a href="#"><%= page_count %></a></li>
+          <li><a href="#">&gt;</a></li>
+        </ul>
+      </div>
+    </div>
     </div>
     <footer>
       <div class="footer_logo">
