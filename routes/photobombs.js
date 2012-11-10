@@ -153,31 +153,31 @@ exports.photobombs = function(req,res){
 		})(res));
 	    })(res));
     })(res));
-}
+};
 
 //callback(error,photobombs)
-var expandedPhotobombs(callback){
+exports.expandedPhotobombs = function(callback){
     
-    Photobomb.find({},{picture:0},Prelude.curry(function(res,error,photobombs){
+    Photobomb.find({},{picture:0},Prelude.curry(function(callback,error,photobombs){
 
 	if(error)
 	    res.json({error:true});
 	else
-	    expandCompetitions(photobombs,Prelude.curry(function(res,error,photobombs){
+	    expandCompetitions(photobombs,Prelude.curry(function(callback,error,photobombs){
 
 		if(error)
 		    callback(error,undefined);
 		else{
-		    expandUsers(photobombs,Prelude.curry(function(res,error,photobombs){
+		    expandUsers(photobombs,Prelude.curry(function(callback,error,photobombs){
 		    
 			if(error)
 			    callback(error,undefined);
 			else
 			    callback(undefined,photobombs);
-		    })(res));
+		    })(callback));
 		}
-	    })(res));
-    })(res));
+	    })(callback));
+    })(callback));
 }
 				    
 var expandCompetitions = function(photobombs,callback){

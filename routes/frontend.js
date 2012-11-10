@@ -41,7 +41,10 @@ exports.challenge = function(req, res){
 exports.recent = function(req, res){
 	var page = req.params.page; // passed page number
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
-	callback_photobomb_list(photobomb_array, res); // CALLBACK FUNCTION
+        var pb = require('./photobombs');
+        pb.expandedPhotobombs(function(error,photobomb_array){
+	    callback_photobomb_list(photobomb_array, res); // CALLBACK FUNCTION
+	});
 }
 
 exports.single_photobomb = function(req, res) {
@@ -49,3 +52,5 @@ exports.single_photobomb = function(req, res) {
 	var photobomb = {}; // TODO: PHOTOBOMB OBJECT AS SPECIFIED IN GOOGLE DOC OF ID
 	callback_photobomb_single(photobomb, res); // CALLBACK FUNCTION
 }
+
+
