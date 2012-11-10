@@ -64,8 +64,8 @@ var surpris3 = {
 			$("#user_upload_error").show();
 		}
 	},
-	vote_up: function _vote_down(id) {
-		if(user_info){
+	vote_up: function _vote_up(id) {
+		if(user_info !== null){
 			var rqst = {};
 			rqst.user_id = user_info.id;
 			rqst.photobomb_id = id;
@@ -78,12 +78,13 @@ var surpris3 = {
 					var count = parseInt($(".pb_" + id + " .pb_vote_count").html(), 10);
 					count++;
 					$(".pb_" + id + " .pb_vote_count").html(count);
+					FB.api('/me/surprise_photo:voted_up', 'post', {photobombing : (SERVER + '/photobomb/' + rqst.photobomb_id.toString())})
 				}
 			});
 		}
 	},
 	vote_down: function _vote_down(id) {
-		if(user_info){
+		if(user_info !== null){
 			var rqst = {};
 			rqst.user_id = user_info.id;
 			rqst.photobomb_id = id;
