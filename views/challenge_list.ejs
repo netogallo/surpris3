@@ -95,7 +95,7 @@
           </div>
           <div class="pb_vote">
             <div class="pb_vote_up"><a href="javascript:surpris3.vote_up(<%= photobomb[i]._id %>)"><div class="ir pb_bomb_up">UP</div></a></div>
-            <div class="pb_vote_count"><%= photobomb[i].votes.length %></div>
+            <div class="pb_vote_count"><%= var vote = 0; for(var j=0; j < photobomb[i].votes.length; j++) { vote += photobomb[i].votes[j].value } vote %></div>
             <div class="pb_vote_down"><a href="javascript:surpris3.vote_up(<%= photobomb[i]._id %>)"><div class="ir pb_bomb_down">DOWN</div></a></div>
             <div class="clearfix"></div>
           </div>
