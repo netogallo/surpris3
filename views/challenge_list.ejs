@@ -106,9 +106,9 @@
       <div class="change_page">
       <div class="pagination">
         <ul>
-          <li class="<% if(page_count == 1) { %>disabled <% } %>"><a href="#">&lt;</a></li>
+          <li class="<% if(page_count == 1) { %>disabled <% } %>"><a href="/challenge/<%= page_count-1 %>">&lt;</a></li>
           <li class="active"><a href="#"><%= page_count %></a></li>
-          <li><a href="#">&gt;</a></li>
+          <li><a href="/challenge/<%= page_count+1 %>">&gt;</a></li>
         </ul>
       </div>
     </div>
