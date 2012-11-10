@@ -3,6 +3,7 @@ function callback_photobomb_list(data, res){
 	info_render.page = 'top';
 	info_render.photobomb = data;
 
+	res.local('layout', true);
 	res.render('photobomb_list', info_render);
 }
 
@@ -12,7 +13,8 @@ function callback_challenge(data, challenge_object, res){
 	info_render.challenge = challenge_object;
 	info_render.photobomb = data;
 
-	res.render('challenge_list.ejs')
+	res.local('layout', true);
+	res.render('challenge_list.ejs', info_render)
 }
 
 function callback_photobomb_single(data, res){
