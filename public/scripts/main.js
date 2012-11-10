@@ -65,7 +65,7 @@ var surpris3 = {
 		}
 	},
 	vote_up: function _vote_up(id) {
-		if(user_info){
+		if(user_info !== null){
 			var rqst = {};
 			rqst.user_id = user_info.id;
 			rqst.photobomb_id = id;
@@ -84,7 +84,7 @@ var surpris3 = {
 		}
 	},
 	vote_down: function _vote_down(id) {
-		if(user_info){
+		if(user_info !== null){
 			var rqst = {};
 			rqst.user_id = user_info.id;
 			rqst.photobomb_id = id;
