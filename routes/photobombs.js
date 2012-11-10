@@ -161,15 +161,17 @@ exports.getPhotobombPretty = function(id,callback){
 };
 
 //callback(error,photobombs)
-exports.expandedPhotobombs = function(callback,query){
-    
+exports.expandedPhotobombs = function(callback,query){    
+
     if(!query)
 	query = {};
 
     Photobomb.find(query,Prelude.curry(function(callback,error,photobombs){
 	if(error)
 	    callback(error,undefined);
-	else
+	else if(!photobombs){
+	    callback(error,null);
+	}else{
 	    expandCompetitions(photobombs,Prelude.curry(function(callback,error,photobombs){
 
 		if(error)
@@ -184,10 +186,16 @@ exports.expandedPhotobombs = function(callback,query){
 		    })(callback));
 		}
 	    })(callback));
+	}
     })(callback));
 }
 				    
 var expandCompetitions = function(photobombs,callback){
+
+    if(!photobombs || photobombs.length == 0){
+	callback(undefined,[]);
+	return;
+    }
 
     var reduce = function(y,x){
 	return Prelude.append(y,{_id:x.competition_id});
@@ -196,7 +204,6 @@ var expandCompetitions = function(photobombs,callback){
     var comp = Prelude.foldr(reduce,[],photobombs);
 
     Competition.find({$or:comp},Prelude.curry(function(callback,photobombs,error,competitions){
-
 	if(error)
 	    callback(error,undefined);
 	else{
@@ -226,6 +233,11 @@ var expandCompetitions = function(photobombs,callback){
 }
 
 var expandUsers = function(photobombs,callback){
+
+    if(!photobombs || photobombs.length == 0){
+	callback(undefined,[]);
+	return;
+    }
 
     var reduce = function(y,x){
 

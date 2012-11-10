@@ -1,7 +1,8 @@
-function callback_photobomb_list(data, res){
+function callback_photobomb_list(page,data, res){
 	var info_render = {};
 	info_render.page = 'top';
 	info_render.photobomb = data;
+        info_render.page_count = page;
 
         res.render('photobomb_list', info_render);
 }
@@ -45,7 +46,11 @@ exports.recent = function(req, res){
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
         var pb = require('./photobombs');
         pb.expandedPhotobombs(function(error,photobomb_array){
-	    callback_photobomb_list(photobomb_array, res); // CALLBACK FUNCTION
+	    
+	    if(error || !photobomb_array)
+		res.render('404');
+	    else
+		callback_photobomb_list(page,photobomb_array, res); // CALLBACK FUNCTION
 	});
 }
 

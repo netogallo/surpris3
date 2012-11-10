@@ -41,15 +41,15 @@ var surpris3 = {
 			allFields = false;
 		}
 
-		if(user_info && allFields){
+		if(surpris3.user_info && allFields){
 			rqst = {};
-			rqst.user_id = user_info.id;
+			rqst.user_id = surpris3.user_info.id;
 			rqst.picture_url = $("#inputURL").val();
 			rqst.name = $("#inputName").val();
 			rqst.competition = $("#inputCompetition").attr("checked") ? true : false;
 			var rqst_str = JSON.stringify(rqst);
 
-			$.ajax("/upload_picture", {type:"POST", data: rqst_str}, function(rsp){
+			$.ajax("/upload_picture", {type:"POST", data: {data:rqst_str}}, function(rsp){
 				if(!rsp.error){
 					FB.api('/me/surprise_photo:photobomb', 'post', { picture : (SERVER + '/photobomb/' + rsp.result._id.toString())});
 					$("#pb_upload").modal('hide');
@@ -60,18 +60,18 @@ var surpris3 = {
 					$("#server_error").show();
 				}
 			});
-		} else if (!user_info) {
+		} else if (!surpris3.user_info) {
 			$("#user_upload_error").show();
 		}
 	},
 	vote_up: function _vote_up(id) {
-		if(user_info !== null){
+		if(surpris3.user_info !== null){
 			var rqst = {};
-			rqst.user_id = user_info.id;
+			rqst.user_id = surpris3.user_info.id;
 			rqst.photobomb_id = id;
 			rqst.value = 1;
 			var rqst_str = JSON.stringify(rqst);
-			$.ajax("/place_vote", {type: "POST", data: rqst_str}, function(rsp){
+			$.ajax("/place_vote", {type: "POST", data:{arg:rqst_str}, success:function(rsp){
 				if(!rsp.error){
 					$(".pb_" + id + " .pb_vote_up").hide();
 					$(".pb_" + id + " .pb_vote_down").hide();
@@ -80,17 +80,17 @@ var surpris3 = {
 					$(".pb_" + id + " .pb_vote_count").html(count);
 					FB.api('/me/surprise_photo:voted_up', 'post', {photobombing : (SERVER + '/photobomb/' + rqst.photobomb_id.toString())})
 				}
-			});
+			}});
 		}
 	},
 	vote_down: function _vote_down(id) {
-		if(user_info !== null){
+		if(surpris3.user_info !== null){
 			var rqst = {};
-			rqst.user_id = user_info.id;
+			rqst.user_id = surpris3.user_info.id;
 			rqst.photobomb_id = id;
 			rqst.value = -1;
 			var rqst_str = JSON.stringify(rqst);
-			$.ajax("/place_vote", {type: "POST", data: rqst_str}, function(rsp){
+			$.ajax("/place_vote", {type: "POST", data: {arg:rqst_str}}, function(rsp){
 				if(!rsp.error){
 					$(".pb_" + id + " .pb_vote_up").hide();
 					$(".pb_" + id + " .pb_vote_down").hide();
@@ -113,7 +113,7 @@ var surpris3 = {
 	}, 
 	register_user: function _register(data) {
 		var user_str = JSON.stringify(data);
-		$.ajax("/create_user", {type: "POST", data: user_str}, function(){});
+		$.ajax("/create_user", {type: "POST", data: {arg:user_str}}, function(){});
 	}
 };
 
