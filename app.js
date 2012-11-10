@@ -82,7 +82,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.post('/upload_picture',photobombs.uploadPicture);
 app.post('/create_user',photobombs.createUser);
-app.post('/vote',photobombs.vote);
+app.post('/place_vote',photobombs.vote);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
