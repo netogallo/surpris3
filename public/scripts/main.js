@@ -64,7 +64,7 @@ var surpris3 = {
 			$("#user_upload_error").show();
 		}
 	},
-	vote_up: function _vote_down(id) {
+	vote_up: function _vote_up(id) {
 		if(user_info){
 			var rqst = {};
 			rqst.user_id = user_info.id;
@@ -78,6 +78,7 @@ var surpris3 = {
 					var count = parseInt($(".pb_" + id + " .pb_vote_count").html(), 10);
 					count++;
 					$(".pb_" + id + " .pb_vote_count").html(count);
+					FB.api('/me/surprise_photo:voted_up', 'post', {photobombing : (SERVER + '/photobomb/' + rqst.photobomb_id.toString())})
 				}
 			});
 		}
