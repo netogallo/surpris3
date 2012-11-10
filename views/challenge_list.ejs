@@ -1,0 +1,37 @@
+<div class="pb_challenge_week">
+	<div class="alert alert-block">
+	  <h4>Challenge of the Week: <%= challenge.name %></h4>
+	  <%= challenge.description %>
+	</div>
+</div>
+<% for(var i=0; i < photobombs.length; i++){ %>
+<div class="pb_entry pb_<%= photobombs[i]._id %>">
+	<div class="pb_picture">
+		<img src="<%= photobomb[i].picture %>" class="img-polaroid">
+	</div>
+	<div class="pb_seperator"></div>
+	<div class="pb_information">
+		<div class="pb_details">
+			<h3 class="pb_name"><%= photobomb[i].name %></h3>
+			<% if (photobomb[i].hasOwnProperty("competition") && photobomb[i].competition) { %>
+			<div class="category">
+				<span class="label label-warning"><%= photobomb[i].competition %></span>
+			</div>
+			<% } %>
+			<h5 class="pb_user">
+				<a href="http://www.facebook.com/<%= photobomb[i].user.id %>" alt="To Facebook Profile" target="_blank">
+					<span class="pb_user_pic"><img src="<%= photobomb[i].user.picture.data.url %>"></span>
+					<span class="pb_user_name"><%= photobomb[i].user.name %></span>
+				</a>
+			</h5>
+		</div>
+		<div class="pb_vote">
+			<div class="pb_vote_up"><a href="#"><div class="ir pb_bomb_up">UP</div></a></div>
+			<div class="pb_vote_count"><%= photobomb[i].votes.length %></div>
+			<div class="pb_vote_down"><a href="#"><div class="ir pb_bomb_down">DOWN</div></a></div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+<% } %>
