@@ -4,6 +4,14 @@ function callback_photobomb_list(page,data, res){
 	info_render.photobomb = data;
         info_render.page_count = page;
 
+        for(var i=0; i < info_render.photobomb.length; ++i){
+		var v = 0;
+		for(var j=0; j < info_render.photobomb[i].votes.length; ++j){
+			v += info_render.photobomb[i].votes[j].value;
+		}
+		info_render.photobomb[i].number_votes = v;
+	}
+
         res.render('photobomb_list', info_render);
 }
 
@@ -13,7 +21,13 @@ function callback_challenge(data, challenge_object, res){
 	info_render.challenge = challenge_object;
 	info_render.photobomb = data;
 
-
+	for(var i=0; i < info_render.photobomb.length; ++i){
+		var v = 0;
+		for(var j=0; j < info_render.photobomb[i].votes.length; ++j){
+			v += info_render.photobomb[i].votes[j].value;
+		}
+		info_render.photobomb[i].number_votes = v;
+	}
 
 	res.render('challenge_list.ejs', info_render)
 }
@@ -23,6 +37,12 @@ function callback_photobomb_single(data, res){
 	info_render.page = '';
 	info_render.photobomb = data;
 	info_render.layout = false;
+
+	var v = 0;
+	for(var j=0; j < info_render.photobomb[i].votes.length; ++j){
+		v += info_render.photobomb[i].votes[j].value;
+	}
+	info_render.photobomb[i].number_votes = v;
 
 	res.render('single_photobomb', info_render);
 }
