@@ -78,7 +78,7 @@
 				<div class="pb_information">
 					<div class="pb_details">
 						<h3 class="pb_name"><%= photobomb.name %></h3>
-						<% if (photobomb[i].hasOwnProperty("competition") && photobomb[i].competition.hasOwnProperty("name") && photobomb[i].competition.name) { %>
+						<% if (photobomb && photobomb.hasOwnProperty("competition") && photobomb.competition && photobomb.competition.hasOwnProperty("name") && photobomb.competition.name) { %>
 						<div class="category">
 							<span class="label label-warning"><%= photobomb[i].competition.name %></span>
 						</div>
