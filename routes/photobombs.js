@@ -61,6 +61,22 @@ exports.uploadPicture = function(req,res){
 	createPhotobomb(req,res,undefined);
 };
 
+exports.getMyVotes = function(req,res){
+
+    Vote.find({user_id:req.params.user_id},Prelude.curry(function(res,error,votes){
+
+	if(error)
+	    res.json({error:true});
+	else{
+	    
+	    var filter = function(v){
+		console.log(v.photobomb_id);
+		return v.photobomb_id;
+	    };
+	    res.json(Prelude.map(filter,votes));
+	}})(res));
+};
+
 exports.createUser = function(req,res){
 
     var tmp = eval('('+req.param('arg')+')');
