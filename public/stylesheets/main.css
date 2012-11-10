@@ -238,6 +238,9 @@ footer {
     text-decoration: none;
 }
 
+.icon-facebook-sign.icon-large {
+    line-height: 22px;
+}
 
 /* ==========================================================================
    Helper classes

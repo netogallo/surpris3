@@ -47,7 +47,7 @@
 						<ul class="nav">
 							<li class="<%= if(page == 'top') return 'active';%>"><a href="/top">Top</a></li>
 							<li class="divider-vertical"></li>
-							<li class="<%= if(page == 'competition') return 'active';%>"><a href="/competition">Competition</a></li>
+							<li class="<%= if(page == 'challenge') return 'active';%>"><a href="/challenge">Challenge</a></li>
 							<li class="divider-vertical"></li>
 							<li class="<%= if(page == 'recent') return 'active';%>"><a href="/recent">Recent</a></li>
 							<li class="divider-vertical"></li>
@@ -70,30 +70,30 @@
 			</div>
 		</header>
 		<div role="main" id="main">
-			<div class="pb_entry pb_<%= photobombs[i]._id %>">
+			<div class="pb_entry pb_<%= photobomb._id %>">
 				<div class="pb_picture">
-					<img src="<%= photobomb[i].picture %>" class="img-polaroid">
+					<img src="<%= photobomb.picture %>" class="img-polaroid">
 				</div>
 				<div class="pb_seperator"></div>
 				<div class="pb_information">
 					<div class="pb_details">
-						<h3 class="pb_name"><%= photobomb[i].name %></h3>
-						<% if (photobomb[i].hasOwnProperty("competition") && photobomb[i].competition) { %>
+						<h3 class="pb_name"><%= photobomb.name %></h3>
+						<% if (photobomb.hasOwnProperty("competition") && photobomb.competition) { %>
 						<div class="category">
-							<span class="label label-warning"><%= photobomb[i].competition %></span>
+							<span class="label label-warning"><%= photobomb.competition %></span>
 						</div>
 						<% } %>
 						<h5 class="pb_user">
-							<a href="http://www.facebook.com/<%= photobomb[i].user.id %>" alt="To Facebook Profile" target="_blank">
-								<span class="pb_user_pic"><img src="<%= photobomb[i].user.picture.data.url %>"></span>
-								<span class="pb_user_name"><%= photobomb[i].user.name %></span>
+							<a href="http://www.facebook.com/<%= photobomb.user.id %>" alt="To Facebook Profile" target="_blank">
+								<span class="pb_user_pic"><img src="<%= photobomb.user.picture.data.url %>"></span>
+								<span class="pb_user_name"><%= photobomb.user.name %></span>
 							</a>
 						</h5>
 					</div>
 					<div class="pb_vote">
-						<div class="pb_vote_up"><a href="#"><div class="ir pb_bomb_up">UP</div></a></div>
-						<div class="pb_vote_count"><%= photobomb[i].votes.length %></div>
-						<div class="pb_vote_down"><a href="#"><div class="ir pb_bomb_down">DOWN</div></a></div>
+						<div class="pb_vote_up"><a href="javascript:surpris3.vote_up(<%= photobomb._id %>)"><div class="ir pb_bomb_up">UP</div></a></div>
+						<div class="pb_vote_count"><%= photobomb.votes.length %></div>
+						<div class="pb_vote_down"><a href="javascript:surpris3.vote_down(<%= photobomb._id %>)"><div class="ir pb_bomb_down">DOWN</div></a></div>
 						<div class="clearfix"></div>
 					</div>
 				</div>

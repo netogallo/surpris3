@@ -12,11 +12,12 @@
 
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-	<link rel="stylesheet" href="stylesheets/normalize.css">
-	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css">
-	<link rel="stylesheet" href="stylesheets/main.css">
-	<script src="scripts/vendor/modernizr-2.6.2.min.js"></script>
+	<link rel="stylesheet" href="/stylesheets/normalize.css">
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap-responsive.min.css">
+	<link rel="stylesheet" href="/font-awesome/css/font-awesome.css"> 
+	<link rel="stylesheet" href="/stylesheets/main.css">
+	<script src="/scripts/vendor/modernizr-2.6.2.min.js"></script>
 </head>
 <body>
 <!--[if lt IE 7]>
@@ -35,23 +36,23 @@
 					</a>
 
 					<!-- Be sure to leave the brand out there if you want it shown -->
-					<a class="brand" href="#"><img src="images/logo_small.png" alt="Surpris3 - Photobombing"></a>
+					<a class="brand" href="#"><img src="/images/logo_small.png" alt="Surpris3 - Photobombing"></a>
 
 					<!-- Everything you want hidden at 940px or less, place within here -->
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-							<li class="active"><a href="/top">Top</a></li>
+							<li class="<%= if(page == 'top') return 'active';%>"><a href="/top">Top</a></li>
 							<li class="divider-vertical"></li>
-							<li><a href="/competition">Competition</a></li>
+							<li class="<%= if(page == 'challenge') return 'active';%>"><a href="/challenge">Challenge</a></li>
 							<li class="divider-vertical"></li>
-							<li><a href="/recent">Recent</a></li>
+							<li class="<%= if(page == 'recent') return 'active';%>"><a href="/recent">Recent</a></li>
 							<li class="divider-vertical"></li>
 						</ul>
 						<ul class="nav pull-right">
 							<li class="nav_logged_in"><a href="#pb_upload" role="button" data-toggle="modal">Upload</a></li>
 							<li class="divider-vertical nav_logged_in"></li>
 							<li class="nav_logged_in">
-								<img class="profilepic" src="images/placeholder.jpg">
+								<img class="profilepic" src="/images/placeholder.jpg">
 								<span class="profilename"></span>
 								<span class="profilepoints"></span></li>
 							<li class="divider_vertical nav_logged_in"></li>
@@ -69,7 +70,7 @@
 	</div>
 	<footer>
 		<div class="footer_logo">
-			<img src="images/logo_dark_big.png" alt="Surpris3 - Photobombing">
+			<img src="/images/logo_dark_big.png" alt="Surpris3 - Photobombing">
 		</div>
 		<div class="footer_information">
 			<span>developed by Dominik Kundel and Ernesto Rodriguez</span>
@@ -84,9 +85,13 @@
 			<h3 id="PhotoBombUpload">Upload Photobomb</h3>
 		</div>
 		<div class="modal-body">
-			<div class="alert alert-block alert-error">
+			<div id="user_upload_error" class="alert alert-block alert-error" style="display: none;">
 				<h4>Not logged in!</h4>
 			  	You must be logged in to upload a picture
+			</div>
+			<div id="server_error" class="alert alert-block alert-error" style="display: none;">
+				<h4>An error occured!</h4>
+			  	Try to upload the picture again!
 			</div>
 			<form class="form-horizontal">
 			  <div class="control-group">
@@ -98,7 +103,7 @@
 			  <div class="control-group">
 			    <label class="control-label" for="inputURL">Image URL</label>
 			    <div class="controls">
-			      <input type="text" id="inputURL" placeholder="https://fbcdn-sphotos-d-a.akamaihd.net/...">
+			      <input type="text" id="inputURL" placeholder="http://...">
 			    </div>
 			  </div>
 			  <div class="control-group">
@@ -116,9 +121,9 @@
 	</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="scripts/vendor/jquery-1.8.2.min.js"><\/script>')</script>
-		<script src="scripts/plugins.js"></script>
-		<script src="bootstrap/js/bootstrap.min.js"></script>
-		<script src="scripts/main.js"></script>
+		<script src="/scripts/plugins.js"></script>
+		<script src="/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/scripts/main.js"></script>
 
 		<script>
 		  window.fbAsyncInit = function() {
