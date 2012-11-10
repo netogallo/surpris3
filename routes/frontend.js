@@ -39,10 +39,10 @@ function callback_photobomb_single(data, res){
 	info_render.layout = false;
 
 	var v = 0;
-	for(var j=0; j < info_render.photobomb[i].votes.length; ++j){
+	for(var j=0; j < info_render.photobomb.votes.length; ++j){
 		v += info_render.photobomb.votes[j].value;
 	}
-	info_render.photobomb[i].number_votes = v;
+	info_render.photobomb.number_votes = v;
 
 	res.render('single_photobomb', info_render);
 }
