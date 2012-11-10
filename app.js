@@ -3,9 +3,58 @@
  * Module dependencies.
  */
 
+Prelude = require('prelude-ls');
+
+var mongo = require('mongoose');
+db = mongo.createConnection('localhost','supris3');
+ObjectId = mongo.Types.ObjectId;
+
+var competition = mongo.Schema({
+    name : String,
+    description : String,
+    date : {type:Date,default:Date.now}
+});
+
+var user = mongo.Schema({
+    _id : String,
+    name : String,
+    picture : {data : 
+	       {url : String,
+		is_silhouette: Boolean
+	       }
+	      }
+});	
+
+var photobomb = mongo.Schema({
+    user_id : String,
+    competition_id : {type:mongo.Schema.Types.ObjectId,ref:'Competition'},
+    name : String,
+    votes : [{user_id:String,value:Number}],
+    picture : String,
+    date : {type:Date,default:Date.now}
+});
+
+photobomb.index({"user_id":1,"competition_id":1},{unique:true,sparse:true});
+
+var vote = mongo.Schema({
+    user_id : String,
+    photobomb_id : {type:mongo.Schema.Types.ObjectId,ref:'Photobomb'},
+    date : {type:Date,default:Date.now}
+});
+
+vote.index({"user_id":1,"photobomb_id":1},{unique:true});
+
+User = db.model('User',user);
+Competition = db.model('Competition',competition);
+Photobomb = db.model('Photobomb',photobomb);
+Vote = db.model('Vote',vote);
+
+
+
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , photobombs = require('./routes/photobombs')
   , http = require('http')
   , path = require('path');
 
@@ -31,6 +80,9 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.post('/upload_picture',photobombs.uploadPicture);
+app.post('/create_user',photobombs.createUser);
+app.post('/vote',photobombs.vote);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
