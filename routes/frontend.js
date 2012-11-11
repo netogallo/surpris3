@@ -13,6 +13,7 @@ function callback_photobomb_list(page,data, page_type, res){
      info_render.page_count = page;
      info_render.challenge = {name: "Screw Friendship", description: "Photobomb a classical friendship picture."};
 
+
     for(var i=0; i < info_render.photobomb.length; ++i){
 	var v = 0;
 	for(var j=0; j < info_render.photobomb[i].votes.length; ++j){
@@ -20,7 +21,7 @@ function callback_photobomb_list(page,data, page_type, res){
 	}
 	info_render.photobomb[i].number_votes = v;
 }
-
+    
     res.render('photobomb_list', info_render);
 }
 
@@ -121,7 +122,7 @@ exports.recent = function(req, res){
 	    if(error || !photobomb_array)
 		res.render('404');
 	    else{
-		console.log(photobomb_array);
+		
 		callback_photobomb_list(page,photobomb_array ? photobomb_array : [], 'recent',res); // CALLBACK FUNCTION
 	    }
 	},{page:page});
@@ -131,6 +132,7 @@ exports.single_photobomb = function(req, res) {
 	var id = req.params.id; // passed photobomb id
 	var photobomb = {}; // TODO: PHOTOBOMB OBJECT AS SPECIFIED IN GOOGLE DOC OF ID
         var pb = require('./photobombs');
+
         pb.getPhotobombPretty(id,(function(error,photobomb){
 	    if(error || photobomb.length == 0){
 		res.status(404);

@@ -178,7 +178,7 @@ exports.photobombs = function(req,res){
 
 exports.getPhotobombPretty = function(id,callback){
 
-    exports.expandedPhotobombs(callback,{_id:id});
+    exports.expandedPhotobombs(callback,{query:{_id:id}});
 };
 
 var photobombScore =  function(pb){
@@ -398,7 +398,7 @@ exports.getTopPhotobombs = function(page,callback){
 
 //callback(error,photobombs)
 exports.expandedPhotobombs = function(callback,args){    
-
+    
     if(!args)
 	args = new Object();
 
@@ -422,7 +422,7 @@ exports.expandedPhotobombs = function(callback,args){
 	    callback(undefined,[]);
 	}else{
 	    expandCompetitions(photobombs,Prelude.curry(function(callback,error,photobombs){
-
+		
 		if(error)
 		    callback(error,undefined);
 		else{
