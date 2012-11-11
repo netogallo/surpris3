@@ -246,6 +246,16 @@ footer {
     display: none;
 }
 
+h3.pb_name a, h3.pb_name a:visited{
+    color: #676767;
+}
+
+h3.pb_name a:hover, h3.pb_name a:focus{
+    color: #676767;
+    text-decoration: none;
+}
+
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
