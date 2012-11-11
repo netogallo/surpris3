@@ -521,3 +521,23 @@ var expandUsers = function(photobombs,callback){
 	}
     })(callback,photobombs));
 };
+
+exports.getImage = function(req,res){
+
+    Photobomb.findOne({_id:req.params.photobomb_id},function(error,pb){
+	
+	if(error || !pb)
+	    res.render('404');
+	
+	res.set({'Content-Type': 'image/jpeg'});
+	var fs = require('fs');
+	var fname = "/tmp/"+pb._id+'.jpg';
+	fs.writeFile(fname,new Buffer(pb.picture.substr("data:image/jpeg;base64,".length),'base64'),function(error){
+
+	    if(error)
+		res.render('404');
+
+	    res.sendfile(fname);
+	});
+    });
+}

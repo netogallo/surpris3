@@ -98,6 +98,7 @@ app.post('/create_competition',photobombs.addCompetition);
 app.get('/list',photobombs.photobombs);
 app.get('/votes/:user_id',photobombs.getMyVotes);
 app.get('/score/:user_id',photobombs.getUserScore);
+app.get('/images/:photobomb_id',photobombs.getImage);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
