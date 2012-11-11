@@ -62,7 +62,7 @@ exports.top = function(req,res){
         var page = req.params.page || 1; // passed page number
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
         var pb = require('./photobombs');
-        pb.getTopPhotobombs(function(error,photobomb_array){
+        pb.getTopPhotobombs(page,function(error,photobomb_array){
 	    
 	    if(error){
 		res.render('404');

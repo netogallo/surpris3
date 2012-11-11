@@ -12,7 +12,7 @@ var createPhotobomb = Prelude.curry(function(req,res,competition){
     })(tmp,res));
 });
 
-var resultsPerPage = 2;
+var resultsPerPage = 10;
 
 var savePhotobomb = Prelude.curry(function(obj,res){
 
@@ -213,10 +213,13 @@ exports.getChallenge = function(competition_id,callback){
 exports.getPhotobombChallenges = function(challenge_id,page,callback){
 
     Photobomb.find({competition_id:challenge_id},Prelude.curry(function(callback,error,pbs){
+
+	if(!page)
+	    page = 1;
 	
 	if(error)
 	    callback(error,undefined)
-	else{
+	else{	    
 
 	    var countVotes = function(pb){
 
@@ -249,6 +252,8 @@ exports.getPhotobombChallenges = function(challenge_id,page,callback){
 	    };
 
 	    ranked.sort(cmp);
+
+	    ranked = Prelude.take(resultsPerPage,Prelude.drop(resultsPerPage*(page-1),ranked));
 
 	    expandCompetitions(ranked,Prelude.curry(function(callback,error,photobombs){
 
@@ -328,7 +333,10 @@ exports.getUsersScore = function(callback){
     
 };
 
-exports.getTopPhotobombs = function(callback){
+exports.getTopPhotobombs = function(page,callback){
+
+    if(!page)
+	page = 1;
 
     Photobomb.find({},Prelude.curry(function(callback,error,pbs){
 	
@@ -367,6 +375,8 @@ exports.getTopPhotobombs = function(callback){
 	    };
 
 	    ranked.sort(cmp);
+
+	    ranked = Prelude.take(resultsPerPage,Prelude.drop(resultsPerPage*(page-1),ranked));
 
 	    expandCompetitions(ranked,Prelude.curry(function(callback,error,photobombs){
 
