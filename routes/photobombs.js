@@ -12,6 +12,8 @@ var createPhotobomb = Prelude.curry(function(req,res,competition){
     })(tmp,res));
 });
 
+var resultsPerPage = 2;
+
 var savePhotobomb = Prelude.curry(function(obj,res){
 
     var pb = new Photobomb({
@@ -50,7 +52,7 @@ exports.uploadPicture = function(req,res){
 
     if(tmp.competition){
 
-	Competition.findOne({}).sort('-date').exec(Prelude.curry(function(req,res,err,competition){
+	Competition.findOne({}).sort({date:-1}).exec(Prelude.curry(function(req,res,err,competition){
 	    console.log(competition);
 	    if(err || !competition)
 		res.json({error:true});
@@ -70,7 +72,6 @@ exports.getMyVotes = function(req,res){
 	else{
 	    
 	    var filter = function(v){
-		console.log(v.photobomb_id);
 		return v.photobomb_id;
 	    };
 	    res.json(Prelude.map(filter,votes));
@@ -114,7 +115,6 @@ exports.vote = function(req,res){
 		res.json({error:true});
 	    }else{
 
-		console.log(pb);
 		pb.votes.push({user_id:vote.user_id,value:value});   
 		vote.save(Prelude.curry(function(pb,res,err){
 		    
@@ -177,12 +177,22 @@ exports.getPhotobombPretty = function(id,callback){
 };
 
 //callback(error,photobombs)
-exports.expandedPhotobombs = function(callback,query){    
+exports.expandedPhotobombs = function(callback,args){    
 
-    if(!query)
-	query = {};
+    if(!args)
+	args = new Object();
 
-    Photobomb.find(query,Prelude.curry(function(callback,error,photobombs){
+    if(!args.query)
+	args.query = {};
+    if(!args.page || args.page < 1)
+	args.page = 1;
+
+    if(!args.sort)
+	args.sort = {date:-1};
+
+    console.log(args.page);
+
+    Photobomb.find(args.query).skip((args.page-1)*resultsPerPage).limit(resultsPerPage).sort(args.sort).exec(Prelude.curry(function(callback,error,photobombs){
 	if(error)
 	    callback(error,undefined);
 	else if(!photobombs){

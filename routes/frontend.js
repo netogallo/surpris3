@@ -70,8 +70,8 @@ exports.recent = function(req, res){
 	    if(error || !photobomb_array)
 		res.render('404');
 	    else
-		callback_photobomb_list(page,photobomb_array, res); // CALLBACK FUNCTION
-	});
+		callback_photobomb_list(page,photobomb_array ? photobomb_array : [], res); // CALLBACK FUNCTION
+	},{page:page});
 }
 
 exports.single_photobomb = function(req, res) {
@@ -79,7 +79,6 @@ exports.single_photobomb = function(req, res) {
 	var photobomb = {}; // TODO: PHOTOBOMB OBJECT AS SPECIFIED IN GOOGLE DOC OF ID
         var pb = require('./photobombs');
         pb.getPhotobombPretty(id,(function(error,photobomb){
-	    console.log('hola');
 	    if(error || photobomb.length == 0){
 		res.status(404);
 		res.render('404');
