@@ -192,7 +192,10 @@ body {
 .pb_vote_count {
     font-size: 1.2em;
     text-align: center;
+}
 
+.pb_vote_count:before {
+    content: "Votes: ";
 }
 
 .pb_vote_down, .pb_vote_up {

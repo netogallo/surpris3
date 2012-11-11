@@ -60,7 +60,7 @@ var surpris3 = {
 
 			$.ajax("/upload_picture", {type:"POST", data: {arg:rqst_str}, success: function(rsp){
 				if(!rsp.error){
-					FB.api('/me/surprise_photo:photobomb', 'post', { picture : (SERVER + '/photobomb/' + rsp.result._id.toString())});
+					FB.api('/me/surprise_photo:photobomb', 'post', { picture : (SERVER + '/photobomb/' + rsp.result._id.toString())}, function(rsp){});
 					$("#pb_upload").modal('hide');
 					$("#inputName").val("");
 					$("#inputURL").val("");
@@ -87,7 +87,7 @@ var surpris3 = {
 					var count = parseInt($(".pb_" + id + " .pb_vote_count").html(), 10);
 					count++;
 					$(".pb_" + id + " .pb_vote_count").html(count);
-					FB.api('/me/surprise_photo:voted_up', 'post', {photobombing : (SERVER + '/photobomb/' + rqst.photobomb_id.toString())})
+					FB.api('/me/surprise_photo:voted_up', 'post', {picture : (SERVER + '/photobomb/' + rqst.photobomb_id.toString())}, function(rsp){});
 				}
 			}});
 		}
