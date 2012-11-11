@@ -27,9 +27,9 @@ function callback_photobomb_list(page,data, page_type, res){
 function callback_challenge(data, challenge_object, res){
 	var info_render = {};
 	info_render.page = 'challenge';
-	info_render.challenge = challenge_object;
 	info_render.photobomb = data;
-	info_render.challenge = {name: "No challenge available", description: "Currently no challenge available!"};
+	info_render.challenge = challenge_object;
+        info_render.page_count = 1;
 
 	for(var i=0; i < info_render.photobomb.length; ++i){
 		var v = 0;
@@ -71,12 +71,45 @@ exports.top = function(req,res){
 	});
 }
 
+exports.getCurrentChallenge = function(req,res){
+
+    var page = req.params.page;
+    var pb = require('./photobombs');
+    
+    pb.getCurrentChallenge(function(error,challenge){
+
+	if(error)
+	    res.render('404');
+	else{
+
+	    pb.getPhotobombChallenges(challenge._id,page,function(error,photobomb_array){
+
+		if(error)
+		    res.render('404');
+		else
+		    callback_challenge(photobomb_array, challenge, res); // CALLBACK FUNCTION
+	    });
+	}
+    });
+}
+
 exports.challenge = function(req, res){
 	var id = req.params.id; // passed challenge id
 	var page = req.params.page; // passed page number
 	var current_challenge = {}; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
 	var photobomb_array = []; // TODO: OBJECT OF CURRENT CHALLENGE
-	callback_challenge(photobomb_array, current_challenge, res); // CALLBACK FUNCTION
+    
+        var pb = require('./photobombs');
+        pb.getPhotobombChallenges(id,page,function(error,photobomb_array){
+
+	    if(error)
+		res.render('404');
+	    else{
+		pb.getChallenge(id,function(error,current_challenge){
+		    callback_challenge(photobomb_array, current_challenge, res); // CALLBACK FUNCTION
+		});
+	    }
+	});
 }
 
 exports.recent = function(req, res){
@@ -87,8 +120,10 @@ exports.recent = function(req, res){
 	    
 	    if(error || !photobomb_array)
 		res.render('404');
-	    else
+	    else{
+		//console.log(photobomb_array);
 		callback_photobomb_list(page,photobomb_array ? photobomb_array : [], 'recent',res); // CALLBACK FUNCTION
+	    }
 	},{page:page});
 }
 
