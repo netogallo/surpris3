@@ -11,7 +11,7 @@ function callback_photobomb_list(page,data, page_type, res){
 	info_render.page = page_type;
 	info_render.photobomb = data;
      info_render.page_count = page;
-     info_render.challenge = {name: "No challenge available", description: "Currently no challenge available!"};
+     info_render.challenge = {name: "Screw Friendship", description: "Photobomb a classical friendship picture."};
 
     for(var i=0; i < info_render.photobomb.length; ++i){
 	var v = 0;
@@ -47,7 +47,7 @@ function callback_photobomb_single(data, res){
 	info_render.page = '';
 	info_render.photobomb = data;
 	info_render.layout = false;
-	info_render.challenge = {name: "No challenge available", description: "Currently no challenge available!"};
+	info_render.challenge = {name: "Screw Friendship", description: "Photobomb a classical friendship picture."};
 
 	var v = 0;
 	for(var j=0; j < info_render.photobomb.votes.length; ++j){
