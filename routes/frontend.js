@@ -1,6 +1,6 @@
-function callback_photobomb_list(page,data, res){
+function callback_photobomb_list(page,data, page_type, res){
 	var info_render = {};
-	info_render.page = 'top';
+	info_render.page = page_type;
 	info_render.photobomb = data;
         info_render.page_count = page;
 
@@ -50,7 +50,7 @@ function callback_photobomb_single(data, res){
 exports.top = function(req,res){
 	var page = req.params.page; // passed page number
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
-	callback_photobomb_list(photobomb_array, res); // CALLBACK FUNCTION
+	callback_photobomb_list(page, photobomb_array, 'top', res); // CALLBACK FUNCTION
 }
 
 exports.challenge = function(req, res){
@@ -70,7 +70,7 @@ exports.recent = function(req, res){
 	    if(error || !photobomb_array)
 		res.render('404');
 	    else
-		callback_photobomb_list(page,photobomb_array ? photobomb_array : [], res); // CALLBACK FUNCTION
+		callback_photobomb_list(page,photobomb_array ? photobomb_array : [], 'recent',res); // CALLBACK FUNCTION
 	},{page:page});
 }
 
