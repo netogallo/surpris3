@@ -87,7 +87,7 @@ var surpris3 = {
 					var count = parseInt($(".pb_" + id + " .pb_vote_count").html(), 10);
 					count++;
 					$(".pb_" + id + " .pb_vote_count").html(count);
-					FB.api('/me/surprise_photo:voted_up', 'post', {photobombing : (SERVER + '/photobomb/' + rqst.photobomb_id.toString())}, function(rsp){});
+					FB.api('/me/surprise_photo:voted_up', 'post', {picture : (SERVER + '/photobomb/' + rqst.photobomb_id.toString())}, function(rsp){});
 				}
 			}});
 		}
