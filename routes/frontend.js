@@ -1,3 +1,11 @@
+var getCurrentChallenge = function(callback){
+
+    Competition.findOne({}).sort({date:-1}).exec(Prelude.curry(function(callback,error,challenge){
+
+	callback(error,challenge);
+    })(callback));
+}
+
 function callback_photobomb_list(page,data, page_type, res){
 	var info_render = {};
 	info_render.page = page_type;
@@ -93,5 +101,4 @@ exports.single_photobomb = function(req, res) {
 		callback_photobomb_single(photobomb[0], res); // CALLBACK FUNCTION
 	}));
 }
-
 
