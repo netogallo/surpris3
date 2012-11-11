@@ -176,6 +176,64 @@ exports.getPhotobombPretty = function(id,callback){
     exports.expandedPhotobombs(callback,{_id:id});
 };
 
+exports.getTopPhotobombs = function(callback){
+
+    Photobomb.find({},Prelude.curry(function(callback,error,pbs){
+	
+	if(error)
+	    callback(error,undefined)
+	else{
+
+	    var countVotes = function(pb){
+
+		var total = 0;
+		for(var i=0;i<pb.votes.length;i++)
+		    total += pb.votes[i].value;
+
+		return {
+		    _id : pb._id,
+		    user_id : pb.user_id,
+		    name : pb.name,
+		    competition_id : pb.competition_id,
+		    votes : pb.votes,
+		    score : total,
+		    date : pb.date,
+		    user : pb.user,
+		    picture : pb.picture,
+		    competition : pb.competition};		
+	    }
+
+	    var ranked = Prelude.map(countVotes,pbs);
+
+	    var cmp = function(pb1,pb2){
+		if(pb1.score > pb2.score)
+		    return -1;
+		else if(pb1.score < pb2.score)
+		    return 1;
+		else
+		    return 0;
+	    };
+
+	    ranked.sort(cmp);
+
+	    expandCompetitions(ranked,Prelude.curry(function(callback,error,photobombs){
+
+		if(error)
+		    callback(error,undefined);
+		else{
+		    expandUsers(photobombs,Prelude.curry(function(callback,error,photobombs){
+			
+			if(error)
+			    callback(error,undefined);
+			else
+			    callback(undefined,photobombs);
+		    })(callback));
+		}
+	    })(callback));	    
+	}
+    })(callback));
+};
+
 //callback(error,photobombs)
 exports.expandedPhotobombs = function(callback,args){    
 
@@ -204,7 +262,7 @@ exports.expandedPhotobombs = function(callback,args){
 		    callback(error,undefined);
 		else{
 		    expandUsers(photobombs,Prelude.curry(function(callback,error,photobombs){
-		    
+			
 			if(error)
 			    callback(error,undefined);
 			else
@@ -249,7 +307,7 @@ var expandCompetitions = function(photobombs,callback){
 		    date : pb.date,
 		    user : pb.user,
 		    picture : pb.picture,
-		    competition : comp};		
+		    competition : comp};
 	    }
 
 	    var res = Prelude.map(augment,photobombs);

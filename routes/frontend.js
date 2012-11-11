@@ -50,7 +50,14 @@ function callback_photobomb_single(data, res){
 exports.top = function(req,res){
 	var page = req.params.page; // passed page number
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
-	callback_photobomb_list(page, photobomb_array, 'top', res); // CALLBACK FUNCTION
+        var pb = require('./photobombs');
+        pb.getTopPhotobombs(function(error,photobomb_array){
+	    
+	    if(error){
+		res.render('404');
+	    }else
+		callback_photobomb_list(page, photobomb_array, 'top', res); // CALLBACK FUNCTION
+	});
 }
 
 exports.challenge = function(req, res){
