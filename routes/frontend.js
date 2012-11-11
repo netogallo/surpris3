@@ -1,16 +1,17 @@
-var getCurrentChallenge = function(callback){
+var getCurrentChallenge = function(page,data, page_type, res, callback){
 
     Competition.findOne({}).sort({date:-1}).exec(Prelude.curry(function(callback,error,challenge){
 
-	callback(error,challenge);
+	callback(error,page,data, page_type, challenge, res);
     })(callback));
 }
 
-function callback_photobomb_list(page,data, page_type, res){
+function callback_photobomb_list(error, page,data, page_type, challenge, res){
 	var info_render = {};
 	info_render.page = page_type;
 	info_render.photobomb = data;
      info_render.page_count = page;
+     info_render.challenge = challenge || {name: 'No challenge', description: 'No challenge at the moment'};
 
     for(var i=0; i < info_render.photobomb.length; ++i){
 	var v = 0;
@@ -18,7 +19,6 @@ function callback_photobomb_list(page,data, page_type, res){
 		v += info_render.photobomb[i].votes[j].value;
 	}
 	info_render.photobomb[i].number_votes = v;
-}
 
     res.render('photobomb_list', info_render);
 }
@@ -64,7 +64,7 @@ exports.top = function(req,res){
 	    if(error){
 		res.render('404');
 	    }else
-		callback_photobomb_list(page, photobomb_array, 'top', res); // CALLBACK FUNCTION
+		getCurrentChallenge(page, photobomb_array, 'top', res, callback_photobomb_list); // CALLBACK FUNCTION
 	});
 }
 
@@ -85,7 +85,7 @@ exports.recent = function(req, res){
 	    if(error || !photobomb_array)
 		res.render('404');
 	    else
-		callback_photobomb_list(page,photobomb_array ? photobomb_array : [], 'recent',res); // CALLBACK FUNCTION
+		getCurrentChallenge(page,photobomb_array ? photobomb_array : [], 'recent',res, callback_photobomb_list); // CALLBACK FUNCTION
 	},{page:page});
 }
 
