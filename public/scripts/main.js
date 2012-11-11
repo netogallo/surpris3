@@ -1,4 +1,4 @@
-const SERVER = "http://127.0.0.1:3000"
+const SERVER = "http://netowork.me:4000";
 
 var surpris3 = {
 	user_info: null,
