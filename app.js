@@ -5,8 +5,8 @@
 
 Prelude = require('prelude-ls');
 
-var mongo = require('mongoose');
-db = mongo.createConnection('localhost','supris3');
+mongo = require('mongoose');
+db = mongo.createConnection('localhost','surpris3');
 ObjectId = mongo.Types.ObjectId;
 
 var competition = mongo.Schema({
@@ -34,7 +34,7 @@ var photobomb = mongo.Schema({
     date : {type:Date,default:Date.now}
 });
 
-//photobomb.index({"competition_id":1,"user_id":1},{unique:true,sparse:true});
+photobomb.index({"competition_id":1});
 
 var vote = mongo.Schema({
     user_id : String,
@@ -86,6 +86,7 @@ app.get('/users', user.list);
 app.get('/photobomb/:id', frontend.single_photobomb);
 app.get('/top/:page', frontend.top);
 app.get('/recent/:page', frontend.recent);
+app.get('/challenge/:page',frontend.getCurrentChallenge);
 app.get('/challenge/:id/:page', frontend.challenge)
 app.post('/upload_picture',photobombs.uploadPicture);
 app.post('/create_user',photobombs.createUser);
@@ -93,6 +94,7 @@ app.post('/place_vote',photobombs.vote);
 app.post('/create_competition',photobombs.addCompetition);
 app.get('/list',photobombs.photobombs);
 app.get('/votes/:user_id',photobombs.getMyVotes);
+app.get('/score/:user_id',photobombs.getUserScore);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
