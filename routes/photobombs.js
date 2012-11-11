@@ -29,7 +29,7 @@ var savePhotobomb = Prelude.curry(function(obj,res){
 	if(error){
 	    console.log(error);
 	    res.json({error:true});
-	}if(!obj || !obj.competition_id){
+	}else if(!obj || !obj.competition_id){
 	    
 	    pb.save(Prelude.curry(function(res,pb,err){
 	
