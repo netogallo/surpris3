@@ -234,7 +234,7 @@ exports.getPhotobombChallenges = function(challenge_id,page,callback){
 		    date : pb.date,
 		    user : pb.user,
 		    picture : pb.picture,
-		    competition : pb.competition};		
+		    challenge : pb.challenge};		
 	    }
 
 	    var ranked = Prelude.map(countVotes,pbs);
@@ -348,12 +348,11 @@ exports.getTopPhotobombs = function(callback){
 		    name : pb.name,
 		    competition_id : pb.competition_id,
 		    votes : pb.votes,
-		    competition : pb.competition,
 		    score : total,
 		    date : pb.date,
 		    user : pb.user,
 		    picture : pb.picture,
-		    competition : pb.competition};		
+		    challenge : pb.challenge};		
 	    }
 
 	    var ranked = Prelude.map(countVotes,pbs);
@@ -455,13 +454,12 @@ var expandCompetitions = function(photobombs,callback){
 		    _id : pb._id,
 		    user_id : pb.user_id,
 		    name : pb.name,
-		    competition : pb.competition,
 		    competition_id : pb.competition_id,
 		    votes : pb.votes,
 		    date : pb.date,
 		    user : pb.user,
 		    picture : pb.picture,
-		    competition : comp};
+		    challenge : comp};
 	    }
 
 	    var res = Prelude.map(augment,photobombs);
@@ -502,10 +500,9 @@ var expandUsers = function(photobombs,callback){
 		    competition_id : pb.competition_id,
 		    votes : pb.votes,
 		    date : pb.date,
-		    competition : pb.competition,
 		    user : Prelude.find(f,users),
 		    picture : pb.picture,
-		    competition : pb.competition};
+		    challenge : pb.challenge};
 	    };
 	    
 	    var res = Prelude.map(augment,photobombs);

@@ -58,8 +58,8 @@ function callback_photobomb_single(data, res){
 	res.render('single_photobomb', info_render);
 }
 
-exports.top = function(req,res){
-	var page = req.params.page; // passed page number
+exports.top = function(req,res){	
+        var page = req.params.page || 1; // passed page number
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
         var pb = require('./photobombs');
         pb.getTopPhotobombs(function(error,photobomb_array){
@@ -95,7 +95,7 @@ exports.getCurrentChallenge = function(req,res){
 
 exports.challenge = function(req, res){
 	var id = req.params.id; // passed challenge id
-	var page = req.params.page; // passed page number
+        var page = req.params.page || 1 ;
 	var current_challenge = {}; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
 	var photobomb_array = []; // TODO: OBJECT OF CURRENT CHALLENGE
     
@@ -113,7 +113,7 @@ exports.challenge = function(req, res){
 }
 
 exports.recent = function(req, res){
-	var page = req.params.page; // passed page number
+	var page = req.params.page || 1 ; // passed page number        
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
         var pb = require('./photobombs');
         pb.expandedPhotobombs(function(error,photobomb_array){
@@ -121,7 +121,7 @@ exports.recent = function(req, res){
 	    if(error || !photobomb_array)
 		res.render('404');
 	    else{
-		//console.log(photobomb_array);
+		console.log(photobomb_array[0]);
 		callback_photobomb_list(page,photobomb_array ? photobomb_array : [], 'recent',res); // CALLBACK FUNCTION
 	    }
 	},{page:page});

@@ -84,8 +84,11 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/photobomb/:id', frontend.single_photobomb);
+app.get('/top', frontend.top);
 app.get('/top/:page', frontend.top);
+app.get('/recent', frontend.recent);
 app.get('/recent/:page', frontend.recent);
+app.get('/challenge',frontend.getCurrentChallenge);
 app.get('/challenge/:page',frontend.getCurrentChallenge);
 app.get('/challenge/:id/:page', frontend.challenge)
 app.post('/upload_picture',photobombs.uploadPicture);

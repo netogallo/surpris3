@@ -74,10 +74,10 @@
 			<div class="pb_seperator"></div>
 			<div class="pb_information">
 				<div class="pb_details">
-					<h3 class="pb_name"><%= photobomb[i].name %></h3>
-					<% console.log(photobomb[i]);if (photobomb[i] && photobomb[i].hasOwnProperty("competition") && photobomb[i].competition && photobomb[i].competition.hasOwnProperty("name") && photobomb[i].competition.name) { %>
+					<h3 class="pb_name"><a href="/photobomb/<%=photobomb[i]._id%>"><%= photobomb[i].name %></a></h3>
+					<% if (photobomb[i] && photobomb[i].challenge && photobomb[i].challenge.name) { %>
 					<div class="category">
-						<span class="label label-warning"><%= photobomb[i].competition.name %></span>
+						<span class="label label-warning"><%= photobomb[i].challenge.name %></span>
 					</div>
 					<% } %>
 					<h5 class="pb_user">
