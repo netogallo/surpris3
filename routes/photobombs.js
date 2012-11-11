@@ -412,11 +412,14 @@ exports.expandedPhotobombs = function(callback,args){
 
     //console.log(args.page);
 
-    Photobomb.find(args.query).skip((args.page-1)*resultsPerPage).limit(resultsPerPage).sort(args.sort).exec(Prelude.curry(function(callback,error,photobombs){
+    Photobomb.find(args.query,{picture:0}).skip((args.page-1)*resultsPerPage).limit(resultsPerPage).sort(args.sort).exec(Prelude.curry(function(callback,error,photobombs){
 	if(error)
 	    callback(error,undefined);
 	else if(!photobombs){
 	    callback(error,null);
+	}else if(photobombs.length < 0){
+	    
+	    callback(undefined,[]);
 	}else{
 	    expandCompetitions(photobombs,Prelude.curry(function(callback,error,photobombs){
 
