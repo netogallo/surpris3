@@ -20,7 +20,7 @@ var surpris3 = {
 		$(".pb_vote_down").show();
 		surpris3.unable_votes();
 		$.ajax("/score/" + surpris3.user_info.id, {type: "GET", success: function(rsp){
-			if(!error){
+			if(!rsp.error){
 				$(".profilepoints").html(rsp.score);
 				$(".profilepoints").show();
 			}
