@@ -121,7 +121,7 @@ exports.recent = function(req, res){
 	    if(error || !photobomb_array)
 		res.render('404');
 	    else{
-		console.log(photobomb_array[0].user);
+		console.log(photobomb_array);
 		callback_photobomb_list(page,photobomb_array ? photobomb_array : [], 'recent',res); // CALLBACK FUNCTION
 	    }
 	},{page:page});
