@@ -81,7 +81,7 @@ app.configure('development', function(){
 });
 //app.use(partials());
 
-app.get('/', routes.index);
+app.get('/', frontend.top);
 app.get('/users', user.list);
 app.get('/photobomb/:id', frontend.single_photobomb);
 app.get('/top', frontend.top);
