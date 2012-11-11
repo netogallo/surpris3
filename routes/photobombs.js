@@ -82,6 +82,8 @@ exports.createUser = function(req,res){
 
     var tmp = eval('('+req.param('arg')+')');
     
+    console.log(tmp);
+
     var user = new User({
 	_id : tmp.id,
 	name : tmp.name,
@@ -90,9 +92,10 @@ exports.createUser = function(req,res){
 
     user.save(Prelude.curry(function(res,error){
 	
-	if(error)
+	if(error){
+	    console.log(error);
 	    res.json({error:true});
-	else
+	}else
 	    res.json({error:false});
     })(res));
 };
@@ -100,6 +103,8 @@ exports.createUser = function(req,res){
 exports.vote = function(req,res){
 
     var tmp = eval('('+req.param('arg')+')');
+
+    console.log(tmp);
 
     if(!(tmp.value == 1 || tmp.value == -1))
 	res.json({error:true,invalid_value:true});
@@ -176,6 +181,63 @@ exports.getPhotobombPretty = function(id,callback){
     exports.expandedPhotobombs(callback,{_id:id});
 };
 
+var photobombScore =  function(pb){
+
+    var res = 0;
+    for(var i=0;i<pb.votes.length;i++)
+	res += pb.votes[i].value;
+    
+    return res;
+};
+
+exports.getScores = function(req,res){
+    
+    exports.getUsersScore(function(error,result){
+	res.json(result);
+    });
+    
+}
+
+exports.getUserScore = function(req,res){
+
+    Photobomb.find({user_id:req.params.user_id},Prelude.curry(function(res,error,pbs){
+	
+	if(error)
+	    res.json({error:true});
+	else{
+	    var value = 0;
+	    
+	    for(var i=0;i<pbs.length;i++)
+		value += photobombScore(pbs[i]);
+	    
+	    res.json({error:false,score:value});		     
+	}
+    })(res));
+}
+
+exports.getUsersScore = function(callback){
+
+    var obj = {};
+
+    obj.map = function(){
+
+	emit(this.user_id,this.votes);//photobombScore(this))
+    };
+
+
+    obj.reduce = function(k,vals){return vals;};
+    
+    Photobomb.mapReduce(obj,function(err,res){
+	//console.log(res);
+	for(var i=0;i<res.length;i++){
+
+	    res[i].score = photobombScore(res[i].value);
+	}
+	callback(err,res);
+    });
+    
+};
+
 exports.getTopPhotobombs = function(callback){
 
     Photobomb.find({},Prelude.curry(function(callback,error,pbs){
@@ -248,7 +310,7 @@ exports.expandedPhotobombs = function(callback,args){
     if(!args.sort)
 	args.sort = {date:-1};
 
-    console.log(args.page);
+    //console.log(args.page);
 
     Photobomb.find(args.query).skip((args.page-1)*resultsPerPage).limit(resultsPerPage).sort(args.sort).exec(Prelude.curry(function(callback,error,photobombs){
 	if(error)

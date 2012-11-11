@@ -5,8 +5,8 @@
 
 Prelude = require('prelude-ls');
 
-var mongo = require('mongoose');
-db = mongo.createConnection('localhost','supris3');
+mongo = require('mongoose');
+db = mongo.createConnection('localhost','surpris3');
 ObjectId = mongo.Types.ObjectId;
 
 var competition = mongo.Schema({
@@ -93,6 +93,7 @@ app.post('/place_vote',photobombs.vote);
 app.post('/create_competition',photobombs.addCompetition);
 app.get('/list',photobombs.photobombs);
 app.get('/votes/:user_id',photobombs.getMyVotes);
+app.get('/score/:user_id',photobombs.getUserScore);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
