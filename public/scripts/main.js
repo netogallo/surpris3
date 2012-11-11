@@ -50,7 +50,7 @@ var surpris3 = {
 			rqst.competition = $("#inputCompetition").attr("checked") ? true : false;
 			var rqst_str = JSON.stringify(rqst);
 
-			$.ajax("/upload_picture", {type:"POST", data: {data:rqst_str}}, function(rsp){
+			$.ajax("/upload_picture", {type:"POST", data: {arg:rqst_str}, success: function(rsp){
 				if(!rsp.error){
 					FB.api('/me/surprise_photo:photobomb', 'post', { picture : (SERVER + '/photobomb/' + rsp.result._id.toString())});
 					$("#pb_upload").modal('hide');
@@ -60,7 +60,7 @@ var surpris3 = {
 				} else {
 					$("#server_error").show();
 				}
-			});
+			}});
 		} else if (!surpris3.user_info) {
 			$("#user_upload_error").show();
 		}
