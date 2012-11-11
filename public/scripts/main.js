@@ -19,12 +19,20 @@ var surpris3 = {
 		$(".pb_vote_up").show();
 		$(".pb_vote_down").show();
 		surpris3.unable_votes();
+		$.ajax("/score/" + surpris3.user_info.id, {type: "GET", success: function(rsp){
+			if(!error){
+				$(".profilepoints").html(rsp.score);
+				$(".profilepoints").show();
+			}
+		}});
 	},
 	clear_user_info: function _clearUser(){
 		this.user_info = null;
 		$(".nav_logged_in").hide();
 		$(".profilename").html("");
 		$(".profilepic").attr("src", "images/placeholder.jpg");
+		$(".profilepoints").html("");
+		$(".profilepoints").hide();
 		$(".nav_logged_out").show();
 		$(".pb_vote_up").hide();
 		$(".pb_vote_down").hide();
