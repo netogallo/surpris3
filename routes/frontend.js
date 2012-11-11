@@ -1,3 +1,11 @@
+var getCurrentChallenge = function(callback){
+
+    Competition.findOne({}).sort({date:-1}).exec(Prelude.curry(function(callback,error,challenge){
+
+	callback(error,challenge);
+    })(callback));
+}
+
 function callback_photobomb_list(page,data, page_type, res){
 	var info_render = {};
 	info_render.page = page_type;
@@ -50,7 +58,14 @@ function callback_photobomb_single(data, res){
 exports.top = function(req,res){
 	var page = req.params.page; // passed page number
 	var photobomb_array = []; // TODO: LIST OF PHOTOBOMBS AS EXPLAINED IN GOOGLE DOC
-	callback_photobomb_list(page, photobomb_array, 'top', res); // CALLBACK FUNCTION
+        var pb = require('./photobombs');
+        pb.getTopPhotobombs(function(error,photobomb_array){
+	    
+	    if(error){
+		res.render('404');
+	    }else
+		callback_photobomb_list(page, photobomb_array, 'top', res); // CALLBACK FUNCTION
+	});
 }
 
 exports.challenge = function(req, res){
@@ -70,8 +85,8 @@ exports.recent = function(req, res){
 	    if(error || !photobomb_array)
 		res.render('404');
 	    else
-		callback_photobomb_list(page,photobomb_array, 'recent', res); // CALLBACK FUNCTION
-	});
+		callback_photobomb_list(page,photobomb_array ? photobomb_array : [], 'recent',res); // CALLBACK FUNCTION
+	},{page:page});
 }
 
 exports.single_photobomb = function(req, res) {
@@ -79,7 +94,6 @@ exports.single_photobomb = function(req, res) {
 	var photobomb = {}; // TODO: PHOTOBOMB OBJECT AS SPECIFIED IN GOOGLE DOC OF ID
         var pb = require('./photobombs');
         pb.getPhotobombPretty(id,(function(error,photobomb){
-	    console.log('hola');
 	    if(error || photobomb.length == 0){
 		res.status(404);
 		res.render('404');
@@ -87,5 +101,4 @@ exports.single_photobomb = function(req, res) {
 		callback_photobomb_single(photobomb[0], res); // CALLBACK FUNCTION
 	}));
 }
-
 
