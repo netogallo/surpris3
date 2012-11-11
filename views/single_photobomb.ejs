@@ -8,7 +8,7 @@
 	<meta property="og:type"   content="surprise_photo:picture" /> 
 	<meta property="og:url"    content="http://netowork.me:4000/photobomb/<%= photobomb._id %>" /> 
 	<meta property="og:title"  content="<%= photobomb.name %>" /> 
-	<meta property="og:image"  content="http://netowork.me:4000/images/<%= photobomb._id %>" /> 
+	<meta property="og:image"  content="http://netowork.me:4000/pb_img/<%= photobomb._id %>" /> 
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<title>Surpris3 - Photobombing</title>
@@ -46,11 +46,11 @@
 					<!-- Everything you want hidden at 940px or less, place within here -->
 					<div class="nav-collapse collapse">
 						<ul class="nav">
-			              <li class="<% if(page == 'top') { %>active<% } %>;%>"><a href="/top">Top</a></li>
+			              <li class="<% if(page == 'top') { %>active<% } %>"><a href="/top">Top</a></li>
 			              <li class="divider-vertical"></li>
-			              <li class="<% if(page == 'challenge') { %>active<% } %>;%>"><a href="/challenge">Challenge</a></li>
+			              <li class="<% if(page == 'challenge') { %>active<% } %>"><a href="/challenge">Challenge</a></li>
 			              <li class="divider-vertical"></li>
-			              <li class="<% if(page == 'recent') { %>active<% } %>;%>"><a href="/recent">Recent</a></li>
+			              <li class="<% if(page == 'recent') { %>active<% } %>"><a href="/recent">Recent</a></li>
 			              <li class="divider-vertical"></li>
 			            </ul>
 						<ul class="nav pull-right">
@@ -103,7 +103,7 @@
 		</div>
 		<footer>
 			<div class="footer_logo">
-				<img src="images/logo_dark_big.png" alt="Surpris3 - Photobombing">
+				<img src="/images/logo_dark_big.png" alt="Surpris3 - Photobombing">
 			</div>
 			<div class="footer_information">
 				<span>developed by Dominik Kundel and Ernesto Rodriguez</span>
